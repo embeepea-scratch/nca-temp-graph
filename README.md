@@ -3,7 +3,7 @@
    dir to convert to yearly average pnt files, then transfer results to
    data/yearly-avg-pnt-files in this dir.
    
-1. Convert yearly avg files to pkz format:
+1. Convert yearly avg files to pkz format in dir _data/yearly-avg-pkz-files_:
    ```
    mkdir data/yearly-avg-pkz-files
    ./pntcomp2/pnt-to-pkz -o data/yearly-avg-pkz-files data/yearly-avg-pnt-files

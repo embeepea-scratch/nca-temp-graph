@@ -3,28 +3,18 @@
    dir to convert to yearly average pnt files, then transfer results to
    data/yearly-avg-pnt-files in this dir.
    
-1. Convert yearly avg files to pkz format in dir _data/yearly-avg-pkz-files_:
+1. Convert yearly avg files from pnt to pkz format in dir _data/yearly-avg-pkz-files_:
    ```
    mkdir data/yearly-avg-pkz-files
    ./pntcomp2/pnt-to-pkz -o data/yearly-avg-pkz-files data/yearly-avg-pnt-files
    ```
+   
+2. Compute 22-year running averages in dir _data/22year-running-averages_:
+   ```
+   ./pntcomp2/pkz-avg --count=22 --outfile-pattern="%s.pkz" --outdir=data/22year-running-averages `find data/yearly-avg-pkz-files -name '*.pkz' -print | sort`
+   ```
 
-
------------------------------
-
-* pnt-to-pkz
-
-  Convert a .pnt to a (much smaller) .pkz file.
-
-* pkz-avg
-
-  Compute averages of pkz files.
-  
-* compute-22year-running-averages
-
-  Compute 22year running averages of all the yearly average pkz files in data/final; store results
-  in data/intermediate/22year-running-averages.
-
+3. 
 * pkz-subtract
 
   Compute the difference of two pkz files.

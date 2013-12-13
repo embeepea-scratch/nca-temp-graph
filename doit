@@ -11,7 +11,7 @@ import os, re
 ##### 1. Convert yearly avg files from pnt to pkz format in dir _data/yearly-avg-pkz-files_:
 #####
 #---| os.system("mkdir data/yearly-avg-pkz-files")
-#---| os.system("./pntcomp2/pnt-to-pkz -o data/yearly-avg-pkz-files data/yearly-avg-pnt-files")
+#---| os.system("./pntcomp2/pnt2pkz -o data/yearly-avg-pkz-files data/yearly-avg-pnt-files")
 
 
 #####
@@ -43,25 +43,33 @@ import os, re
 #### 5. Generate contour files for each anomaly file in data/22year-anomalies, storing the results
 ####    in data/22year-anomaly-contours
 ####
-os.system("mkdir data/22year-anomaly-contours")
-os.system("./pntcomp2/pkz-contour --values=-9999,-0.833,-0.556,-0.278,0.0,0.278,0.556,0.833,9999"
-          + " -o data/22year-anomaly-contours data/22year-anomalies")
+#--| os.system("mkdir data/22year-anomaly-contours")
+#--| os.system("./pntcomp2/pkz-contour --values=-9999,-0.833,-0.556,-0.278,0.0,0.278,0.556,0.833,9999"
+#--|           + " -o data/22year-anomaly-contours data/22year-anomalies")
 
-###   Run pkz-to-contour-json on each pkz file found in data/final/22year-anomalies, generating
-###   the corresponding json file, which will also be stored in data/final/22year-anomalies.
 
-### * pkz-to-contour-json
-### 
-###   Load a single pkz file and generate a json contour file from it.
-### 
-### * jsonify-22year-anomalies
-### 
-### 
-### * dopages
-### 
-###   Use phantomjs to render an image for each contour json file in data/final/22year-anomalies;
-###   store the images in data/final/22year-anomaly-images.
-### 
-### * generate-animated-gif
-### 
-###   Generate a single animated gif image from all the images found in data/final/22year-anomaly-images
+#### 
+#### 6. Generate a png image for each contour file in data/22year-anomaly-contours,
+####    storing them in 
+#--| os.system("mkdir data/22year-anomaly-contour-pngs")
+#--| for file in [file for file in os.listdir("data/22year-anomaly-contours")]:
+#--|     year = re.sub(r'\.json$', '', file)
+#--|     os.system("./pntcomp2/mk-contourmap-html -f --caption=%s html-%s 1400 650 data/22year-anomaly-contours/%s"
+#--|               % (year, year, file))
+#--|     os.system("./pntcomp2/html2png data/22year-anomaly-contour-pngs/%s.png html-%s/index.html" % (year,year))
+#--|     os.system("rm -rf html-%s" % year)
+
+
+#### 
+#### 7. Generate an animated gif, saved in the file 'data/anim.gif":
+#### 
+os.system(" ".join(["convert -delay 30 -loop 0",
+                    "data/22year-anomaly-contour-pngs/*.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/22year-anomaly-contour-pngs/2012.png",
+                    "data/anim.gif"]))

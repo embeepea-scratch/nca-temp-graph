@@ -33,30 +33,29 @@ import os, re
 #### 4. Compute the anomaly, relative to the above baseline, of each 22year avg, saving results
 ####    to files in data/22year-anomalies
 #### 
-os.system("mkdir data/22year-anomalies")
-files = [file for file in os.listdir("data/22year-running-averages") if re.search('.pkz$', file)]
-for file in files:
-    os.system("./pntcomp2/pkz-subtract data/22year-anomalies/%s %s data/22year-running-averages/%s" %
-              (file, "data/baseline/tavg-1901-1960.pkz", file))
+#---| os.system("mkdir data/22year-anomalies")
+#---| files = [file for file in os.listdir("data/22year-running-averages") if re.search('.pkz$', file)]
+#---| for file in files:
+#---|     os.system("./pntcomp2/pkz-subtract data/22year-anomalies/%s %s data/22year-running-averages/%s" %
+#---|               (file, "data/baseline/tavg-1901-1960.pkz", file))
 
-### 3. 
-### * pkz-subtract
-### 
-###   Compute the difference of two pkz files.
-###   
-### * compute-22year-anomalies
-### 
-###   Compute the difference of each 22year running average pkz file in data/intermediate/22year-running-averages
-###   with the 1901-1960 average data/final/tavg-1901-1960.pkz 
-### 
+####
+#### 5. Generate contour files for each anomaly file in data/22year-anomalies, storing the results
+####    in data/22year-anomaly-contours
+####
+os.system("mkdir data/22year-anomaly-contours")
+os.system("./pntcomp2/pkz-contour --values=-9999,-0.833,-0.556,-0.278,0.0,0.278,0.556,0.833,9999"
+          + " -o data/22year-anomaly-contours data/22year-anomalies")
+
+###   Run pkz-to-contour-json on each pkz file found in data/final/22year-anomalies, generating
+###   the corresponding json file, which will also be stored in data/final/22year-anomalies.
+
 ### * pkz-to-contour-json
 ### 
 ###   Load a single pkz file and generate a json contour file from it.
 ### 
 ### * jsonify-22year-anomalies
 ### 
-###   Run pkz-to-contour-json on each pkz file found in data/final/22year-anomalies, generating
-###   the corresponding json file, which will also be stored in data/final/22year-anomalies.
 ### 
 ### * dopages
 ### 
